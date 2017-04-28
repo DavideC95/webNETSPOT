@@ -1,10 +1,10 @@
 # Prerequisiti
-Per installare laravel bisogna installare PHP, Mysql (o un RDBMS supportato da Laravel), ed un webserver che interpreti PHP.
-Questi requisiti si possono installare tramite i software *AMP rispettivamente:
+Per installare laravel bisogna installare PHP, MySQL (o un RDBMS supportato da Laravel), ed un webserver che interpreti PHP.
+Questi requisiti si possono installare tramite i software **\*AMP** rispettivamente:
 
-LAMP per Linux
-MAMP per Mac
-XAMPP/WAMP/EasyPHP o simili per Windows
+- LAMP per Linux
+- MAMP per Mac
+- XAMPP/WAMP/EasyPHP o simili per Windows
 
 ### -  Linux
 
@@ -15,19 +15,19 @@ $ sudo tasksel
 
 Selezionate il meta-pacchetto "LAMP" (usando le freccette e "spazio") andate su "OK" tramite il pulsante TAB
 
-### Mac
+### - Mac
 
 È possibile scaricare MAMP da [qui](https://www.mamp.info/en/downloads/) oppure tramite hombrew seguendo [questa guida](https://gist.github.com/alanthing/4089298)
 
-### Windows
+### - Windows
 
 Download links per le singole alternative
 [EasyPHP](http:/venerdì, 28. aprile 2017 12:18 
 /www.easyphp.org/download.php)
 
 ### Alternative (cross-platform)
-[XAMPP](https://www.apachefriends.org/download.html)
-[WAMP](http://www.wampserver.com/en/)
+- [XAMPP](https://www.apachefriends.org/download.html)
+- [WAMP](http://www.wampserver.com/en/)
 
 
 # Installare Laravel
