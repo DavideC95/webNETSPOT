@@ -85,6 +85,8 @@ Assicuriamoci che nel file **.env** non ci sia QUEUE_DRIVER=default, in caso sos
 
 ## [Creare un job su laravel](https://laravel.com/docs/5.4/queues#creating-jobs)
 
+[Commit dove sono svolte le seguenti indicazioni](https://github.com/IamTask/webNETSPOT/commit/ad5f0c503f0e887552b798b4b450e421fcd4be05)
+
 Per prima cosa, per lavorare con le queue è necessario creare un "job" ovvero una classe che svolgerà una determinata "richiesta", un determinato "lavoro di esecuzione", un job.
 Questa classe la creeremo su app/Jobs/ tramite artisan.php un tool all'interno di laravel, quindi eseguiamolo da riga di comando con:
 
