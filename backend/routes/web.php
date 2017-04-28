@@ -23,3 +23,4 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
     });
 });
 
+Route::get('route_job', 'SigSpotController@requestJob');

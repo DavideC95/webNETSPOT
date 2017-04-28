@@ -9,9 +9,10 @@ Questi requisiti si possono installare tramite i software **\*AMP** rispettivame
 ### -  Linux
 
 Se si ha una distro Debian-based si può installare LAMP tramite i seguenti comandi:
-
+```
 $ sudo apt install tasksel
 $ sudo tasksel
+```
 
 Selezionate il meta-pacchetto "LAMP" (usando le freccette e "spazio") andate su "OK" tramite il pulsante TAB
 
@@ -43,7 +44,9 @@ $ sudo apt install beanstalkd
 
 Se si vuole rendere pubblico l'accesso a beanstalkd bisogna modificare l'indirizzo di ascolto da file */etc/default/beanstalkd* asseggando **BEANSTALKD_LISTEN_ADDR=0.0.0.0**
 
+```
 $ sudo nano /etc/default/beanstalkd
+```
 
 ## Installare beanstalkd_console
 
@@ -80,4 +83,155 @@ Una volta scaricato ed installato, impostiamo beanstalkd come queue driver di la
 
 Assicuriamoci che nel file **.env** non ci sia QUEUE_DRIVER=default, in caso sostituiamolo con **QUEUE_DRIVER=beanstalkd**
 
+## [Creare un job su laravel](https://laravel.com/docs/5.4/queues#creating-jobs)
+
+Per prima cosa, per lavorare con le queue è necessario creare un "job" ovvero una classe che svolgerà una determinata "richiesta", un determinato "lavoro di esecuzione", un job.
+Questa classe la creeremo su app/Jobs/ tramite artisan.php un tool all'interno di laravel, quindi eseguiamolo da riga di comando con:
+
+```
+php artisan make:job SigSpot
+```
+
+*SigSpot* sarà il nome della classe, quindi del job, ed anche del file.
+
+Questa classe di default avrà un metodo __construct(), che è appunto il costruttore della classe, ed il metodo handle(), metodo che verrà eseguito all'esecuzione del job.
+
+Esempio di Job con attributo "$path":
+
+```
+<?php
+
+namespace App\Jobs;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+
+class SigSpot implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+		protected $path;
+
+    /*
+     * @return void
+     */
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        exec("cd '/file/path/JavaProject_Netspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
+    }
+}
+```
+
+Creato il job lo si può eseguire creando la classe SigSpot ed usando la funzione **dispatch()**:
+```
+$job = (new SigSpot("output.txt"))
+            ->onConnection("beanstalkd");
+
+dispatch($job);
+```
+
+Per fare un test possiamo creare una route e richiamare questo job da quella route, quindi creiamo un nuovo controller su *app/Http/Controllers/*:
+
+SigSpotController.php
+```
+<?php
+namespace App\Http\Controllers;
+
+use App\Jobs\SigSpot;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class SigSpotController extends Controller
+{
+
+	public function add() {
+		Queue::push('MyQueue', array());
+	}
+
+    /**
+     * @param  Request  $request
+     * @return Response
+     */
+    public function requestJob(Request $request)
+    {
+
+		$job = (new SigSpot("output.txt"))
+		->onConnection('beanstalkd');
+
+		dispatch($job);
+
+    }
+}
+```
+
+Aggiungiamo la route requestJob su **routes/web.php**:
+
+
+```
+Route::get('route_job', 'SigSpotController@requestJob');
+```
+
+Quindi visitiamo http://localhost/webnetspot/backend/public/index.php/route_job per testare la route.
+
+Visitando la route "route_job", abbiamo richiesto l'esecuzione del job, quindi nella beanstalk_console vedremo incrementare la **current-jobs-ready**
+
+---
+
+![current jobs ready](doc/job-ready.png)
+
+Per eseguire il job possiamo utilizzare artisan:
+
+```
+php artisan queue:work
+```
+
+Per automatizzare l'esecuzione dei job, bisogna installare il servizio supervisord:
+
+**Linux**
+```
+$ sudo apt install supervisor
+```
+
+**[Mac](https://gist.github.com/fadhlirahim/78fefdfdf4b96d9ea9b8)**
+```
+$ sudo pip install supervisor
+```
+
+Creiamo una cartella dove tenere i logs del servizio supervisord:
+```
+$ sudo touch /var/log/supervisor.log
+```
+
+Successivamente creiamo un file di conf della nostra queue in **/etc/supervisor/conf.d/**
+```
+[program:queue]
+command=php artisan queue:listen --tries=2
+directory=/var/www/html/webnetspot/backend
+stdout_logfile=/var/log/supervisor.log
+redirect_stderr=true
+```
+
+Avviamo supervisord ed aggiungiamo il nuovo file di conf (queue.conf):
+```
+$ sudo supervisorctl reread
+$ sudo supervisorctl add queue
+```
+
+Avviamo il programma definito nel nostor queue.conf
+```
+$ sudo supervisorctl start queue
+```
 
