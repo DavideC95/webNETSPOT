@@ -217,7 +217,8 @@ Creiamo una cartella dove tenere i logs del servizio supervisord:
 $ sudo touch /var/log/supervisor.log
 ```
 
-Successivamente creiamo un file di conf della nostra queue in **/etc/supervisor/conf.d/**
+Successivamente creiamo un file di conf *(queue.conf)* della nostra queue in **/etc/supervisor/conf.d/queue.conf
+
 ```
 [program:queue]
 command=php artisan queue:listen --tries=2
