@@ -1,5 +1,20 @@
+# Indice
+### [Prerequisiti](#Prerequisiti)
+### [Laravel](#Laravel)
+### [Installare Beanstalkd](#Installare-Beanstalkd)
+### [Supervisor](#Supervisor)
+
 # Prerequisiti
-Per installare laravel bisogna installare PHP, MySQL (o un RDBMS supportato da Laravel), ed un webserver che interpreti PHP.
+
+- [AMP (Apache2, MySQL, PHP)](#Installare-AMP)
+- [composer](https://getcomposer.org/doc/00-intro.md)
+- [Beanstalkd](#Installare-Beanstalkd)
+- [Supervisor](#Supervisor)
+
+
+## Installare AMP
+
+Per installare laravel bisogna installare PHP, MySQL (o un RDBMS supportato da Laravel), un webserver che interpreti PHP.
 Questi requisiti si possono installare tramite i software **\*AMP** rispettivamente:
 
 - LAMP per Linux
@@ -29,12 +44,6 @@ Download links per le singole alternative
 ### Alternative (cross-platform)
 - [XAMPP](https://www.apachefriends.org/download.html)
 - [WAMP](http://www.wampserver.com/en/)
-
-
-# Installare Laravel
-
-Guida per installare laravel per creare dele Restful API con autenticazione sfruttando il pacchetto JWT-Auth
-http://shinworld.altervista.org/wordpress/installare-creare-primo-progetto-laravel-jwtauth/
 
 # Installare beanstalkd
 
@@ -67,7 +76,61 @@ Una volta installato si può aprire tramite browser visitando *beanstalkd_consol
 
 ---
 
-# Configurare Laravel & Beanstalkd
+# Supervisor
+
+Per automatizzare l'esecuzione dei job di laravel, bisogna installare il servizio supervisord:
+
+**Linux**
+```
+$ sudo apt install supervisor
+```
+
+**[Mac](https://gist.github.com/fadhlirahim/78fefdfdf4b96d9ea9b8)**
+```
+$ sudo pip install supervisor
+```
+
+Creiamo una cartella dove tenere i logs del servizio supervisord:
+```
+$ sudo touch /var/log/supervisor.log
+```
+
+Successivamente creiamo un file di conf *(queue.conf)* della nostra queue in **/etc/supervisor/conf.d/queue.conf**
+
+```
+[program:queue]
+command=php artisan queue:listen --tries=2
+directory=/var/www/html/webnetspot/backend
+stdout_logfile=/var/log/supervisor.log
+redirect_stderr=true
+```
+
+Avviamo supervisord ed aggiungiamo il nuovo file di conf (queue.conf):
+```
+$ sudo supervisorctl reread
+$ sudo supervisorctl add queue
+```
+
+Avviamo il programma definito nel nostor queue.conf
+```
+$ sudo supervisorctl start queue
+```
+
+# Installare Laravel
+
+## Creare un progetto di Laravel da 0
+
+Guida per installare laravel per creare dele Restful API con autenticazione sfruttando il pacchetto JWT-Auth
+http://shinworld.altervista.org/wordpress/installare-creare-primo-progetto-laravel-jwtauth/
+
+## Installare il progetto presente su webnetspot
+
+```
+$ cd backend
+$ composer install
+```
+
+# Configurare Laravel per Beanstalkd
 Tramite il tool composer è possibile aggiungere pacchetti/dipendenze ad un progetto, in questo a noi torna utile il pacchetto pheanstalk, un beanstalkd client scirtto in PHP che permette a Laravel di connettersi al servizio beanstalkd
 
 ```
@@ -198,43 +261,5 @@ Per eseguire il job possiamo utilizzare artisan:
 
 ```
 php artisan queue:work
-```
-
-Per automatizzare l'esecuzione dei job, bisogna installare il servizio supervisord:
-
-**Linux**
-```
-$ sudo apt install supervisor
-```
-
-**[Mac](https://gist.github.com/fadhlirahim/78fefdfdf4b96d9ea9b8)**
-```
-$ sudo pip install supervisor
-```
-
-Creiamo una cartella dove tenere i logs del servizio supervisord:
-```
-$ sudo touch /var/log/supervisor.log
-```
-
-Successivamente creiamo un file di conf *(queue.conf)* della nostra queue in **/etc/supervisor/conf.d/queue.conf
-
-```
-[program:queue]
-command=php artisan queue:listen --tries=2
-directory=/var/www/html/webnetspot/backend
-stdout_logfile=/var/log/supervisor.log
-redirect_stderr=true
-```
-
-Avviamo supervisord ed aggiungiamo il nuovo file di conf (queue.conf):
-```
-$ sudo supervisorctl reread
-$ sudo supervisorctl add queue
-```
-
-Avviamo il programma definito nel nostor queue.conf
-```
-$ sudo supervisorctl start queue
 ```
 
