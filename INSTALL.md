@@ -1,9 +1,3 @@
-# Indice
-### [Prerequisiti](#prerequisiti-1)
-### [Laravel](#laravel-1)
-### [Installare Beanstalkd](#installare-beanstalkd-1)
-### [Supervisor](#supervisor-1)
-
 # Prerequisiti
 
 - [AMP (Apache2, MySQL, PHP)](#installare-amp)
@@ -118,19 +112,45 @@ $ sudo supervisorctl start queue
 
 # Installare Laravel
 
-## Creare un progetto di Laravel da 0
+[Creare un progetto Laravel da 0](http://shinworld.altervista.org/wordpress/installare-creare-primo-progetto-laravel-jwtauth/)
 
-Guida per installare laravel per creare dele Restful API con autenticazione sfruttando il pacchetto JWT-Auth
-http://shinworld.altervista.org/wordpress/installare-creare-primo-progetto-laravel-jwtauth/
-
-## Installare il progetto presente su webnetspot
+## Installare il progetto Laravel presente su webnetspot
 
 ```
 $ cd backend
 $ composer install
+$ chmod 777 -R storage/
+$ chmod 777 -R storage/logs/
+$ chmod 777 -R storage/framework/cache
+$ chmod 777 -R storage/framework/views
+$ chmod 777 -R storage/framework/sessions
+$ chmod 777 -R bootstrap/cache
 ```
 
-# Configurare Laravel per Beanstalkd
+Configurare le credenziali per la connessione al database, quindi, copiare il file .env.example rinominandolo in .env ed inserendo i parametri richiesti:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_database
+DB_USERNAME=username
+DB_PASSWORD=password
+```
+
+Assicurarsi che nel file .env il parametro APP_KEY non sia vuoto, altrimenti eseguire:
+```
+php artisan key:generate
+```
+
+Assicurarsi che nel file **.env** non ci sia *QUEUE_DRIVER=default*, in caso sostituirla con **QUEUE_DRIVER=beanstalkd**
+
+Per testare se Laravel è stato installato correttamente andare su  http://localhost/yourPrj/public/index.php
+
+
+---
+
+## Configurare Laravel per Beanstalkd
 Tramite il tool composer è possibile aggiungere pacchetti/dipendenze ad un progetto, in questo a noi torna utile il pacchetto pheanstalk, un beanstalkd client scirtto in PHP che permette a Laravel di connettersi al servizio beanstalkd
 
 ```
@@ -146,7 +166,10 @@ Una volta scaricato ed installato, impostiamo beanstalkd come queue driver di la
 
 Assicuriamoci che nel file **.env** non ci sia QUEUE_DRIVER=default, in caso sostituiamolo con **QUEUE_DRIVER=beanstalkd**
 
+
 ## [Creare un job su laravel](https://laravel.com/docs/5.4/queues#creating-jobs)
+
+Se NON hai installato Laravel da 0 non hai bisogno di creare un Job, poichè il Job è già presente nella repository webnetspot.
 
 [Commit dove sono svolte le seguenti indicazioni](https://github.com/IamTask/webNETSPOT/commit/ad5f0c503f0e887552b798b4b450e421fcd4be05)
 
