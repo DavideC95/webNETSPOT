@@ -23,7 +23,7 @@ $ sudo apt install tasksel
 $ sudo tasksel
 ```
 
-Selezionate il meta-pacchetto "LAMP" (usando le freccette e "spazio") andate su "OK" tramite il pulsante TAB
+Selezionare il meta-pacchetto "LAMP" (usando le freccette e "spazio") andare su "OK" tramite il pulsante TAB
 
 ### - Mac
 
@@ -31,31 +31,28 @@ Selezionate il meta-pacchetto "LAMP" (usando le freccette e "spazio") andate su 
 
 ### - Windows
 
-Download links per le singole alternative
-[EasyPHP](http:/venerdì, 28. aprile 2017 12:18 
-/www.easyphp.org/download.php)
+Download [EasyPHP](http://www.easyphp.org/download.php)
 
 ### Alternative (cross-platform)
 - [XAMPP](https://www.apachefriends.org/download.html)
 - [WAMP](http://www.wampserver.com/en/)
 
 # Installare beanstalkd
-
+## - Linux
 ```
 $ sudo apt install beanstalkd
 ```
 
-Se si vuole rendere pubblico l'accesso a beanstalkd bisogna modificare l'indirizzo di ascolto da file */etc/default/beanstalkd* asseggando **BEANSTALKD_LISTEN_ADDR=0.0.0.0**
-
+## - Mac
 ```
-$ sudo nano /etc/default/beanstalkd
+$ brew install beanstalkd
 ```
 
 ## Installare beanstalkd_console
 
 Questo tool è un pannello di amministrazione per visualizzare le code di beanstalkd, [opensource](https://github.com/ptrofimov/beanstalk_console) scritto in PHP.
 
-Esso si può installare tramite composer, tool PHP citato nella guida di installazione per Laravel
+Esso si può installare tramite composer:
 
 ```
 composer create-project ptrofimov/beanstalk_console -s dev
@@ -72,7 +69,7 @@ Una volta installato si può aprire tramite browser visitando *beanstalkd_consol
 
 # Supervisor
 
-Per automatizzare l'esecuzione dei job di laravel, bisogna installare il servizio supervisord:
+Per automatizzare l'esecuzione dei job di laravel, bisogna installare il servizio supervisor:
 
 **Linux**
 ```
@@ -89,7 +86,7 @@ Creiamo una cartella dove tenere i logs del servizio supervisord:
 $ sudo touch /var/log/supervisor.log
 ```
 
-Successivamente creiamo un file di conf *(queue.conf)* della nostra queue in **/etc/supervisor/conf.d/queue.conf**
+Successivamente bisognare creare un file di conf *(queue.conf)* della nostra queue in **/etc/supervisor/conf.d/queue.conf**
 
 ```
 [program:queue]
@@ -99,13 +96,13 @@ stdout_logfile=/var/log/supervisor.log
 redirect_stderr=true
 ```
 
-Avviamo supervisord ed aggiungiamo il nuovo file di conf (queue.conf):
+Avviare supervisord ed aggiungere il nuovo file di conf (queue.conf):
 ```
 $ sudo supervisorctl reread
 $ sudo supervisorctl add queue
 ```
 
-Avviamo il programma definito nel nostor queue.conf
+Avviare il programma definito nel nostor queue.conf
 ```
 $ sudo supervisorctl start queue
 ```
@@ -151,20 +148,20 @@ Per testare se Laravel è stato installato correttamente andare su  http://local
 ---
 
 ## Configurare Laravel per Beanstalkd
-Tramite il tool composer è possibile aggiungere pacchetti/dipendenze ad un progetto, in questo a noi torna utile il pacchetto pheanstalk, un beanstalkd client scirtto in PHP che permette a Laravel di connettersi al servizio beanstalkd
+Tramite il tool composer è possibile aggiungere pacchetti/dipendenze ad un progetto, in questo a noi torna utile il pacchetto pheanstalk, un  client beanstalkd scirtto in PHP che permette a Laravel di connettersi al servizio beanstalkd
 
 ```
 $ composer require pda/pheanstalk
 $ composer update
 ```
 
-Una volta scaricato ed installato, impostiamo beanstalkd come queue driver di laravel tramite il file *app/config/queue.php*
+Una volta scaricato ed installato, impostare beanstalkd come queue driver di laravel tramite il file *app/config/queue.php*
  
 ```
 'default' => 'beanstalkd',
 ```
 
-Assicuriamoci che nel file **.env** non ci sia QUEUE_DRIVER=default, in caso sostituiamolo con **QUEUE_DRIVER=beanstalkd**
+Assicurarsi che nel file **.env** non ci sia QUEUE_DRIVER=default, in caso sostituirlo con **QUEUE_DRIVER=beanstalkd**
 
 
 ## [Creare un job su laravel](https://laravel.com/docs/5.4/queues#creating-jobs)
@@ -174,7 +171,8 @@ Se NON hai installato Laravel da 0 non hai bisogno di creare un Job, poichè il 
 [Commit dove sono svolte le seguenti indicazioni](https://github.com/IamTask/webNETSPOT/commit/ad5f0c503f0e887552b798b4b450e421fcd4be05)
 
 Per prima cosa, per lavorare con le queue è necessario creare un "job" ovvero una classe che svolgerà una determinata "richiesta", un determinato "lavoro di esecuzione", un job.
-Questa classe la creeremo su app/Jobs/ tramite artisan.php un tool all'interno di laravel, quindi eseguiamolo da riga di comando con:
+
+Questa classe la si può creare su app/Jobs/ tramite artisan.php un tool all'interno di laravel, quindi eseguire da riga di comando con:
 
 ```
 php artisan make:job SigSpot
@@ -231,7 +229,7 @@ $job = (new SigSpot("output.txt"))
 dispatch($job);
 ```
 
-Per fare un test possiamo creare una route e richiamare questo job da quella route, quindi creiamo un nuovo controller su *app/Http/Controllers/*:
+Per fare un test è possibile creare una route che richiami il job, quindi creare un nuovo controller su *app/Http/Controllers/*:
 
 SigSpotController.php
 ```
@@ -265,24 +263,23 @@ class SigSpotController extends Controller
 }
 ```
 
-Aggiungiamo la route requestJob su **routes/web.php**:
+Aggiungere la route requestJob su **routes/web.php**:
 
 
 ```
 Route::get('route_job', 'SigSpotController@requestJob');
 ```
 
-Quindi visitiamo http://localhost/webnetspot/backend/public/index.php/route_job per testare la route.
+Quindi visitare http://localhost/webnetspot/backend/public/index.php/route_job per testare la route.
 
-Visitando la route "route_job", abbiamo richiesto l'esecuzione del job, quindi nella beanstalk_console vedremo incrementare la **current-jobs-ready**
+Visitando la route "route_job", si richiede l'esecuzione del job, quindi nella beanstalk_console si vedrà incrementare la **current-jobs-ready**
 
 ---
 
 ![current jobs ready](doc/job-ready.png)
 
-Per eseguire il job possiamo utilizzare artisan:
+È possibile eseguire il job tramite artisan:
 
 ```
 php artisan queue:work
 ```
-
