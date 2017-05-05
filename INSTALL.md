@@ -1,15 +1,15 @@
 # Indice
-### [Prerequisiti](#Prerequisiti)
-### [Laravel](#Laravel)
-### [Installare Beanstalkd](#Installare-Beanstalkd)
-### [Supervisor](#Supervisor)
+### [Prerequisiti](#prerequisiti-1)
+### [Laravel](#laravel-1)
+### [Installare Beanstalkd](#installare-beanstalkd-1)
+### [Supervisor](#supervisor-1)
 
 # Prerequisiti
 
-- [AMP (Apache2, MySQL, PHP)](#Installare-AMP)
+- [AMP (Apache2, MySQL, PHP)](#installare-amp)
 - [composer](https://getcomposer.org/doc/00-intro.md)
-- [Beanstalkd](#Installare-Beanstalkd)
-- [Supervisor](#Supervisor)
+- [Beanstalkd](#installare-beanstalkd-1)
+- [Supervisor](#supervisor-1)
 
 
 ## Installare AMP
