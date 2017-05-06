@@ -163,7 +163,7 @@ $ composer require pda/pheanstalk
 $ composer update
 ```
 
-Una volta scaricato ed installato, impostare beanstalkd come queue driver di laravel tramite il file *app/config/queue.php*
+Una volta scaricato ed installato, impostare beanstalkd come queue driver di laravel tramite il file */config/queue.php* contenuto nella cartella backend.
  
 ```
 'default' => 'beanstalkd',
