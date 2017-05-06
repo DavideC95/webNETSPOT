@@ -132,7 +132,7 @@ $ chmod 777 -R storage/framework/sessions
 $ chmod 777 -R bootstrap/cache
 ```
 
-Configurare le credenziali per la connessione al database, quindi, copiare il file .env.example rinominandolo in .env ed inserendo i parametri richiesti:
+Configurare le credenziali per la connessione al database, quindi, copiare il file .env.example,che si trova nella cartella backend rinominandolo in .env ed inserendo i parametri richiesti:
 
 ```
 DB_CONNECTION=mysql
