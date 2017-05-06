@@ -58,6 +58,14 @@ Esso si può installare tramite composer:
 composer create-project ptrofimov/beanstalk_console -s dev
 ```
 ---
+beanstalkd_console necessita phpmbstring. Qualora non l'aveste già potete installarlo su qualsiasi distribuzione debian-based come segue:
+
+```
+sudo apt-get install php-mbstring php7.0-mbstring php-gettext libapache2-mod-php7.0
+```
+
+---
+---
 
 Una volta installato si può aprire tramite browser visitando *beanstalkd_console/public/* e si può aggiungere un server (locale in questo caso) tramite "Add Server" con Host localhost e porta 11300 (di default).
 
