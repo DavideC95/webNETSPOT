@@ -29,6 +29,6 @@ class SigSpot implements ShouldQueue
      */
     public function handle()
     {
-        exec("cd '/file/path/JavaProject_Netspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
+        exec("cd '/home/alessio/Scrivania/javaNetspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
     }
 }
