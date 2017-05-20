@@ -144,6 +144,12 @@ Assicurarsi che nel file **.env** non ci sia *QUEUE_DRIVER=default*, in caso sos
 
 Per testare se Laravel è stato installato correttamente andare su  http://localhost/yourPrj/public/index.php
 
+Per testare le API di login e di registrazione account è necessario creare un Database di test, esso si può generare tramite il seguente comando:
+
+```
+php artisan migrate
+```
+
 
 ---
 
