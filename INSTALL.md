@@ -57,9 +57,24 @@ Esso si può installare tramite composer:
 ```
 composer create-project ptrofimov/beanstalk_console -s dev
 ```
+
+---
+beanstalkd_console necessita phpmbstring. Qualora non l'aveste già potete installarlo su qualsiasi distribuzione debian-based come segue:
+
+```
+sudo apt-get install php-mbstring php7.0-mbstring php-gettext libapache2-mod-php7.0
+```
+
 ---
 
 Una volta installato si può aprire tramite browser visitando *beanstalkd_console/public/* e si può aggiungere un server (locale in questo caso) tramite "Add Server" con Host localhost e porta 11300 (di default).
+
+Se riscontrate il problema "storage.json not writable" assegnate i permessi 777 al file storage.json
+
+```
+chmod 777 storage.json
+```
+
 
 ---
 
@@ -124,7 +139,7 @@ $ chmod 777 -R storage/framework/sessions
 $ chmod 777 -R bootstrap/cache
 ```
 
-Configurare le credenziali per la connessione al database, quindi, copiare il file .env.example rinominandolo in .env ed inserendo i parametri richiesti:
+Configurare le credenziali per la connessione al database, quindi, copiare il file .env.example,che si trova nella cartella backend rinominandolo in .env ed inserendo i parametri richiesti:
 
 ```
 DB_CONNECTION=mysql
@@ -161,7 +176,7 @@ $ composer require pda/pheanstalk
 $ composer update
 ```
 
-Una volta scaricato ed installato, impostare beanstalkd come queue driver di laravel tramite il file *app/config/queue.php*
+Una volta scaricato ed installato, impostare beanstalkd come queue driver di laravel tramite il file */config/queue.php* contenuto nella cartella backend.
  
 ```
 'default' => 'beanstalkd',
