@@ -1,0 +1,3 @@
+[submodule "netspot"]
+	path = netspot
+	url = https://github.com/sdwww/JavaProject_Netspot
