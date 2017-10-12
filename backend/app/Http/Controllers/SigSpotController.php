@@ -19,12 +19,20 @@ class SigSpotController extends Controller
     public function requestJob(Request $request)
     {
 
-		$job = (new SigSpot("output.txt"))
-		->onConnection('beanstalkd');
+			// $path = $request->input("path");
 
-		dispatch($job);
-		
-		echo "done!";
+			$job = (new SigSpot("output.txt"))
+
+			dispatch($job);
+
+			->onConnection('beanstalkd');
+			$job_col["stato"] = "ready";
+			$job_col["filename"] = "output.txt"; //path
+			$job_table = DB::table("Jobs")->insert($job_col)->get();
+
+			//$asd = DB::table("Jobs")->wher("ID", 1)->insert($update);
+
+			echo "done!";
 
     }
 }

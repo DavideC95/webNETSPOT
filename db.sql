@@ -1,9 +1,9 @@
 -- -----------------------------------------------------
--- Table `mydb`.`Jobs`
+-- Table `webnetspot`.`Jobs`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Jobs` (
-  `id` INT NULL,
-  `id_utente` INT NULL,
+CREATE TABLE IF NOT EXISTS `webnetspot`.`Jobs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_utente` INT NOT NULL,
   `stato` VARCHAR(45) NULL,
   `filename` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -11,17 +11,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Utente`
+-- Table `webnetspot`.`Utente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Utente` (
-  `id_utente` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `webnetspot`.`Utente` (
+  `id_utente` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL,
   `pwd` VARCHAR(45) NULL,
-  PRIMARY KEY (`id_utente`),
-  CONSTRAINT `id_utente`
-    FOREIGN KEY (`id_utente`)
-    REFERENCES `mydb`.`Jobs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id_utente`))
 ENGINE = InnoDB;
-

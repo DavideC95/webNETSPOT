@@ -14,21 +14,16 @@ class SigSpot implements ShouldQueue
 
 		protected $path;
 
-    /*
-     * @return void
-     */
     public function __construct($path)
     {
         $this->path = $path;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
+        $job_col["state"] = "processing"
+        $job_table = DB::table("Jobs")->update($job_col)->get();
         exec("cd '/home/alessio/Scrivania/javaNetspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
+
     }
 }
