@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SigSpot;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class SigSpotController extends Controller
 {
@@ -12,7 +13,7 @@ class SigSpotController extends Controller
 		Queue::push('MyQueue', array());
 	}
 
-    /**
+    /*
      * @param  Request  $request
      * @return Response
      */
@@ -21,18 +22,19 @@ class SigSpotController extends Controller
 
 			// $path = $request->input("path");
 
-			$job = (new SigSpot("output.txt"))
+			$job = (new SigSpot("output.txt"))->onConnection('beanstalkd');
 
 			dispatch($job);
-
-			->onConnection('beanstalkd');
 			$job_col["stato"] = "ready";
 			$job_col["filename"] = "output.txt"; //path
-			$job_table = DB::table("Jobs")->insert($job_col)->get();
+			$job_col["id_utente"] = "0"; //path
+			$job_table = DB::table("Jobs")->insert($job_col);
+
+			return "done";
 
 			//$asd = DB::table("Jobs")->wher("ID", 1)->insert($update);
 
-			echo "done!";
+			//echo "done!";
 
     }
 }

@@ -21,9 +21,11 @@ class SigSpot implements ShouldQueue
 
     public function handle()
     {
-        $job_col["state"] = "processing"
-        $job_table = DB::table("Jobs")->update($job_col)->get();
-        exec("cd '/home/alessio/Scrivania/javaNetspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
+        $job_col["stato"] = "processing";
+        $job_table = DB::table("Jobs")->update($job_col)->where("path",$this->path)->get();
+        exec("cd '/var/www/html/webnetspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
 
     }
+
+
 }
