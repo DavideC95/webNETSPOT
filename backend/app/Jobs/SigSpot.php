@@ -23,7 +23,7 @@ class SigSpot implements ShouldQueue
     {
         $job_col["stato"] = "processing";
         $job_table = DB::table("Jobs")->update($job_col)->where("path",$this->path)->get();
-        exec("cd '/var/www/html/webnetspot'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
+        exec("cd '/var/www/html/webnetspot/netspot/'; java -cp lib/GraphLib.jar:lib/meden.jar:lib/oplall.jar:lib/Refine.jar:. SigSpot wikipedia990.quadruples 10 10 output/" . $this->path . " > /dev/null 2>/dev/null &");
 
     }
 

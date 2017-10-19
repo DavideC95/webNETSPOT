@@ -37,4 +37,29 @@ class SigSpotController extends Controller
 			//echo "done!";
 
     }
+		public function outputFile(){
+	    $output = file_get_contents('/var/www/html/webnetspot/netspot/output/output.txt');
+	    $exp = explode("\n", $output);
+			$region = array();
+			$score = array();
+			$data = array();
+
+			$jsonText = array();
+			for ($i = 0; $i< count($exp)-1; $i++) {
+				if (strpos($exp[$i],"Region")) {
+					$region = explode(" ",explode("Region: ",$exp[$i])[1])[0];
+					$score = explode(" ",explode("Score: ",$exp[$i])[1])[0];
+
+					$jsonText[] = array("region" => $region, "score" => $score, "rows" => array());
+				}
+				else if ($exp[$i] != "") {
+					$last = count($jsonText)-1;
+					$jsonText[$last]["rows"][] = explode(", ",$exp[$i]);
+				}
+
+			}
+
+			return response()->json($jsonText);
+
+	  }
 }

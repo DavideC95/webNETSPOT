@@ -13,6 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
+
 });
 
 Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
@@ -24,3 +25,5 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
 });
 
 Route::get('route_job', 'SigSpotController@requestJob');
+
+Route::get('output', 'SigSpotController@outputFile');
