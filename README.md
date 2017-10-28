@@ -1,6 +1,5 @@
 # webNETSPOT
 
-
 ### Download and install Netspot algorithm
 
 To download and install the netspot algorithm run
