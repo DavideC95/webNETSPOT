@@ -3,12 +3,7 @@
 
 ### Download and install Netspot algorithm
 
-```
-git submodule init
-git submodule update
-```
-
-Copy setup_netspot.sh into netspot/ and execute it with:
+To download and install the netspot algorithm run
 
 ```
 sh setup_netspot.sh

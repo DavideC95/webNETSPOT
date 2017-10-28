@@ -1,3 +1,8 @@
+git submodule init
+git submodule update
+
+cd netspot
+
 #GraphLib
 mkdir GraphLib/src/build
 javac -d GraphLib/src/build -cp lib/meden.jar:. GraphLib/src/*.java
@@ -21,4 +26,5 @@ cd ../../
 mv SigSpot/src/*.class ./
 
 mkdir output
+chmod 777 output
 

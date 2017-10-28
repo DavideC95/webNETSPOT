@@ -1,3 +1,5 @@
+(italian guide)
+
 # Prerequisiti
 
 - [AMP (Apache2, MySQL, PHP)](#installare-amp)
